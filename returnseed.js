@@ -3,6 +3,7 @@ const mongoClient = require('mongodb').MongoClient,
 const data = [
   {
     "order_id":"OR100001",
+    "return_invoice_barcodeNo":"883153834881",
     "barcode_no":"883153834902",
     "barcode_type":"UPC",
     "order_details":{
@@ -19,18 +20,13 @@ const data = [
         "brand":"Baggit",
         "category":"female handbag",
         "image":"https://rukminim1.flixcart.com/image/612/612/jb3yp3k0/hand-messenger-bag/s/p/g/lxe4-enter-y-g-e-silicon-tan-tan-l-8903414761296-shoulder-bag-original-imafyg52zxfe6unq.jpeg?q=70",
-      },
-      {
-        "product_id":"hb1254",
-        "product_name":"Tommy Hilfiger HandBag",
-        "brand":"Tommy",
-        "category":"female handbag",
-        "image":"https://images.barcodelookup.com/8884/88843035-1.jpg",
       }
     ]
     }
   },
-  { "order_id":"OR100002",
+  {
+    "order_id":"OR100002",
+    "return_invoice_barcodeNo":"8831538333341",
     "barcode_no":"031655337913",
     "barcode_type":"UPC",
     "order_details":{
@@ -54,23 +50,9 @@ const data = [
         "brand":"Quartz",
         "category":"Girl's watch",
         "image":"https://images.barcodelookup.com/1704/17044852-1.jpg",
-      },
-      {
-        "product_id":"mw9877",
-        "product_name":"Tommy Men's Watch",
-        "brand":"Tommy",
-        "category":"Men's watch",
-        "image":"https://images.barcodelookup.com/4618/46189314-1.jpg",
-      },
-      {
-        "product_id":"ms9877",
-        "product_name":"Tommy Men's Watch",
-        "brand":"Nike",
-        "category":"Men's Swim shirt",
-        "image":"https://images.barcodelookup.com/8960/89600816-1.jpg",
       }]
     }
-  },
+  }
 ]
 
     mongoClient.connect(url,(err,client)=>{
@@ -79,7 +61,7 @@ const data = [
     else{
       const db = client.db('tjmaxx');
 
-      db.collection('purchasedOrderDetails').insertMany(data,(err,result)=>{
+      db.collection('returnInvoiceDetails').insertMany(data,(err,result)=>{
         if(err) throw err;
         else console.log('data inserted');
       })
