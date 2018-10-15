@@ -62,7 +62,7 @@ console.log(req.body,"------------------------> data from req.body");
 })
 
 app.get('/getReturnData',(req,res)=>{
-  var return_invoice_barcodeNo = req.query.return_barcode_no;
+  var return_invoice_barcodeNo = req.query.return_invoice_barcodeNo;
   //res.send(barcode);
      mongoClient.connect(url,(err,client)=>{
         if(err) throw err;
