@@ -46,7 +46,7 @@ console.log(req.body,"------------------------> data from req.body");
       barcode_no="031655337913",
       barcode_type="UPC";
       var order_details = req.body;
-      
+
      mongoClient.connect(url,(err,client)=>{
          if(err) throw err;
          else{
@@ -61,7 +61,20 @@ console.log(req.body,"------------------------> data from req.body");
 
 })
 
-
+app.get('/getReturnData',(req,res)=>{
+  var return_invoice_barcodeNo = req.query.return_barcode_no;
+  //res.send(barcode);
+     mongoClient.connect(url,(err,client)=>{
+        if(err) throw err;
+        else{
+          const db = client.db('tjmaxx');
+          db.collection('returnInvoiceDetails').find({"return_invoice_barcodeNo":return_invoice_barcodeNo}).toArray(function(err,result) {
+              client.close();
+              res.json(result);
+            })
+        }
+     })
+})
 
 
 
