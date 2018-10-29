@@ -1,8 +1,8 @@
 const app = require('express')(),
       mongoClient = require('mongodb').MongoClient,
-      url = "mongodb://admin:admin1@ds121163.mlab.com:21163/tjmaxx",
-    //url="mongodb://localhost:27017/",
-      PORT= process.env.PORT||8080;
+    //  url = "mongodb://admin:admin1@ds121163.mlab.com:21163/tjmaxx",
+    url="mongodb://localhost:27017/",
+      PORT= process.env.PORT||5000;
 const bodyParser = require('body-parser');
 var bodyparser=require('body-parser').json();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -76,13 +76,15 @@ app.get('/getproductData',(req,res)=>{
           const db = client.db('tjmaxx');
           db.collection('products').find({"barcode_no":barcode_no}).toArray(function(err,result) {
             product_details=result;
+            console.log(product_details);
             product_id=product_details[0].product_id;
             product_name=product_details[0].product_name;
             barcode_no=product_details[0].barcode_no;
             brand=product_details[0].brand;
             category=product_details[0].category;
             image=product_details[0].image;
-            db.collection('returnProducts').update({barcode_no:barcode_no,},{$set:{product_id:product_id,product_name:product_name,brand:brand,category:category,image:image}},{upsert:true}),(function(err,result) {
+            price=product_details[0].price;
+            db.collection('returnProducts').update({barcode_no:barcode_no,},{$set:{product_id:product_id,product_name:product_name,brand:brand,category:category,image:image,price:price}},{upsert:true}),(function(err,result) {
                 console.log("inserted succesfully");
               })
             db.collection('returnProducts').find({}).toArray(function(err,finalresult){
