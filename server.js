@@ -1,6 +1,7 @@
 const app = require('express')(),
       mongoClient = require('mongodb').MongoClient,
       url = "mongodb://admin:admin1@ds121163.mlab.com:21163/tjmaxx",
+    //url="mongodb://localhost:27017/",
       PORT= process.env.PORT||8080;
 const bodyParser = require('body-parser');
 var bodyparser=require('body-parser').json();
@@ -60,6 +61,55 @@ console.log(req.body,"------------------------> data from req.body");
  res.send("response from server");
 
 })
+app.get('/getproductData',(req,res)=>{
+  var barcode_no = req.query.barcode_no;
+  var product_details;
+  var product_name;
+  var product_id;
+  var brand;
+  var image;
+  var category;
+
+     mongoClient.connect(url,(err,client)=>{
+        if(err) throw err;
+        else{
+          const db = client.db('tjmaxx');
+          db.collection('products').find({"barcode_no":barcode_no}).toArray(function(err,result) {
+            product_details=result;
+            product_id=product_details[0].product_id;
+            product_name=product_details[0].product_name;
+            barcode_no=product_details[0].barcode_no;
+            brand=product_details[0].brand;
+            category=product_details[0].category;
+            image=product_details[0].image;
+            db.collection('returnProducts').update({barcode_no:barcode_no,},{$set:{product_id:product_id,product_name:product_name,brand:brand,category:category,image:image}},{upsert:true}),(function(err,result) {
+                console.log("inserted succesfully");
+              })
+            db.collection('returnProducts').find({}).toArray(function(err,finalresult){
+              res.json(finalresult);
+            })
+          });
+
+
+
+        }
+     })
+})
+
+app.get('/finalReturnData',(req,res)=>{
+  mongoClient.connect(url,(err,client)=>{
+     if(err) throw err;
+     else{
+       const db = client.db('tjmaxx');
+       db.collection('returnProducts').find({}).toArray(function(err,finalresult){
+         res.json(finalresult);
+       })
+     }
+  })
+})
+
+
+
 
 app.get('/getReturnData',(req,res)=>{
   var return_invoice_barcodeNo = req.query.return_invoice_barcodeNo;
@@ -75,10 +125,5 @@ app.get('/getReturnData',(req,res)=>{
         }
      })
 })
-
-
-
-
-
 
 app.listen(PORT,()=>console.log('server started on', PORT));
