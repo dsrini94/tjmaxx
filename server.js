@@ -1,8 +1,8 @@
 const app = require('express')(),
       mongoClient = require('mongodb').MongoClient,
-    //  url = "mongodb://admin:admin1@ds121163.mlab.com:21163/tjmaxx",
-    url="mongodb://localhost:27017/",
-      PORT= process.env.PORT||5000;
+      url = "mongodb://admin:admin1@ds121163.mlab.com:21163/tjmaxx",
+    //url="mongodb://localhost:27017/",
+      PORT= process.env.PORT||8080;
 const bodyParser = require('body-parser');
 var bodyparser=require('body-parser').json();
 app.use(bodyParser.urlencoded({ extended: true }));
