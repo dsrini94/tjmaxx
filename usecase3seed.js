@@ -31,7 +31,7 @@ const data = [
       {
         "product_id":"be1234",
         "product_name":"Bebe",
-        "barcode_no":"701098627246",
+        "barcode_no":"m",
         "brand":"Bebe",
         "category":"big girls ribbed top with rhinestone logo",
         "image":"https://images.barcodelookup.com/5331/53310837-1.jpg",

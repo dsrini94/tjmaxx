@@ -3,6 +3,8 @@ const app = require('express')(),
       url = "mongodb://admin:admin1@ds121163.mlab.com:21163/tjmaxx",
     //url="mongodb://localhost:27017/",
       PORT= process.env.PORT||8080;
+    
+
 const bodyParser = require('body-parser');
 var bodyparser=require('body-parser').json();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -127,5 +129,21 @@ app.get('/getReturnData',(req,res)=>{
         }
      })
 })
+
+app.get('/deleteReturns',(req,res)=>{
+     mongoClient.connect(url,(err,client)=>{
+        if(err) throw err;
+        else{
+          const db = client.db('tjmaxx');
+        db.collection('returnProducts').remove({},function(err,result){
+          if(err) throw err;
+          else {
+            res.send("deleted succesfully");
+          }
+        });
+        }
+     })
+})
+
 
 app.listen(PORT,()=>console.log('server started on', PORT));
