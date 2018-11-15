@@ -6,3 +6,7 @@ mongoimport -h ds121163.mlab.com:21163 -d tjmaxx -c returnInvoiceDetails -u admi
 
 //to connect to shell
 mongo ds121163.mlab.com:21163/tjmaxx -u admin -p admin1
+
+
+
+mongoimport -h ds121163.mlab.com:21163 -d tjmaxx -c products -u admin -p admin1 --file products.json

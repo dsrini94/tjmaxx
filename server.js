@@ -3,7 +3,7 @@ const app = require('express')(),
       url = "mongodb://admin:admin1@ds121163.mlab.com:21163/tjmaxx",
     //url="mongodb://localhost:27017/",
       PORT= process.env.PORT||8080;
-    
+
 
 const bodyParser = require('body-parser');
 var bodyparser=require('body-parser').json();
@@ -63,6 +63,8 @@ console.log(req.body,"------------------------> data from req.body");
  res.send("response from server");
 
 })
+
+
 app.get('/getproductData',(req,res)=>{
   var barcode_no = req.query.barcode_no;
   var product_details;
@@ -71,7 +73,8 @@ app.get('/getproductData',(req,res)=>{
   var brand;
   var image;
   var category;
-
+   if(barcode_no === "61377450000599" || barcode_no === "71181370040412")
+   {
      mongoClient.connect(url,(err,client)=>{
         if(err) throw err;
         else{
@@ -98,6 +101,20 @@ app.get('/getproductData',(req,res)=>{
 
         }
      })
+   }
+   else{
+     var finalObj ={
+         "product_id":"de123",
+         "product_name":"Denizen by Levis",
+         "barcode_no":"192379357608",
+         "brand":"Levis",
+         "category":"208 regular taper jeans",
+         "image":"https://images.barcodelookup.com/9879/98792992-1.jpg",
+         "price":"$16"
+       }
+       res.json(finalObj)
+     }
+
 })
 
 app.get('/finalReturnData',(req,res)=>{
